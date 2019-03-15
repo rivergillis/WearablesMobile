@@ -1,4 +1,5 @@
 import React, { Component } from "react";
+import { StyleSheet } from "react-native";
 import {
   Container,
   Content,
@@ -8,13 +9,31 @@ import {
   Item,
   Input,
   Label,
-  Toast
+  Toast,
+  View
 } from "native-base";
 import { bindActionCreators } from "redux";
 import { connect } from "react-redux";
 import SimpleHeader from "./common/SimpleHeader";
 
 import * as AuthActions from "../actions/auth";
+
+const styles = StyleSheet.create({
+  container: {
+    padding: 4,
+    borderWidth: 0.5,
+    borderColor: "#d6d7da"
+  },
+  buttonToolbar: {
+    flex: 1,
+    flexDirection: "row",
+    alignItems: "center",
+    justifyContent: "space-between",
+    paddingTop: 20,
+    paddingLeft: 80,
+    paddingRight: 80
+  }
+});
 
 class LoginPage extends Component {
   state = {
@@ -56,7 +75,7 @@ class LoginPage extends Component {
         <Content>
           <Form>
             <Item floatingLabel>
-              <Label>Email or Username</Label>
+              <Label>Email</Label>
               <Input
                 value={email}
                 onChangeText={text => this.setState({ email: text })}
@@ -71,13 +90,20 @@ class LoginPage extends Component {
               />
             </Item>
           </Form>
-          <Button onPress={this.onLoginPress} disabled={auth.loggingIn}>
-            <Text>{loginText}</Text>
-          </Button>
 
-          <Button onPress={this.onSignupPress} disabled={auth.loggingIn}>
-            <Text>Sign up</Text>
-          </Button>
+          <View style={styles.buttonToolbar}>
+            <Button onPress={this.onLoginPress} disabled={auth.loggingIn}>
+              <Text>{loginText}</Text>
+            </Button>
+
+            <Button
+              bordered
+              onPress={this.onSignupPress}
+              disabled={auth.loggingIn}
+            >
+              <Text>Sign up</Text>
+            </Button>
+          </View>
         </Content>
       </Container>
     );
