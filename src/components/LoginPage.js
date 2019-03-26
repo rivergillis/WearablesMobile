@@ -19,16 +19,17 @@ import SimpleHeader from "./common/SimpleHeader";
 import * as AuthActions from "../actions/auth";
 
 const styles = StyleSheet.create({
-  container: {
-    padding: 4,
-    borderWidth: 0.5,
-    borderColor: "#d6d7da"
-  },
+  // container: {
+  //   padding: 4,
+  //   borderWidth: 0.5,
+  //   borderColor: "#d6d7da"
+  // },
   buttonToolbar: {
     flex: 1,
     flexDirection: "row",
     alignItems: "center",
     justifyContent: "space-between",
+    // TODO: Consider using flex-basis or whatever instead of setting the padding
     paddingTop: 20,
     paddingLeft: 80,
     paddingRight: 80
