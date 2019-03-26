@@ -3,7 +3,7 @@ import * as types from "../actions/types";
 // if we have no state, use INITIAL_STATE
 const INITIAL_STATE = {
   ownedDevices: [],
-  readDecices: []
+  readDevices: []
 };
 
 const DevicesReducer = (state = INITIAL_STATE, action) => {
@@ -16,6 +16,10 @@ const DevicesReducer = (state = INITIAL_STATE, action) => {
         // This should always exist
         ownedDevices: action.payload.devices
       };
+    case types.BEGIN_READ_DEVICES_FETCH:
+      return { ...state };
+    case types.READ_DEVICES_FETCH_SUCCESS:
+      return { ...state, readDevices: action.payload.devices };
     default:
       return state;
   }
