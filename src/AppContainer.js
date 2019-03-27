@@ -1,6 +1,7 @@
 import { createStackNavigator, createAppContainer } from "react-navigation";
 import LoginPage from "./components/LoginPage";
 import DeviceList from "./components/DeviceList";
+import Testing from "./components/Testing";
 
 const AppNavigator = createStackNavigator(
   {
@@ -9,6 +10,9 @@ const AppNavigator = createStackNavigator(
     },
     DeviceList: {
       screen: DeviceList
+    },
+    Testing: {
+      screen: Testing
     }
   },
   // This will hide the automatically-added header so that we can use our own

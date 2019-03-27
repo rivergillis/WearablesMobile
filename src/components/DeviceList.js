@@ -1,5 +1,5 @@
 import React, { Component } from "react";
-import { StyleSheet } from "react-native";
+import { StyleSheet, ScrollView } from "react-native";
 import {
   Card,
   CardItem,
@@ -7,7 +7,8 @@ import {
   Text,
   H2,
   Container,
-  Content
+  Content,
+  View
 } from "native-base";
 import SimpleHeader from "./common/SimpleHeader";
 import { connect } from "react-redux";
@@ -15,25 +16,53 @@ import { bindActionCreators } from "redux";
 
 import * as DeviceActions from "../actions/devices";
 
+import LineChart from "react-native-responsive-linechart";
+
 const styles = StyleSheet.create({
   headerStyle: {
     textAlign: "center"
   }
 });
 
+const makeRandomArray = () => {
+  const arr = [];
+  for (let i = 0; i < 10; i++) {
+    arr.push(Math.floor(Math.random() * Math.floor(10)));
+  }
+  return arr;
+};
+
 class DeviceList extends Component {
+  state = { timer: null, randomLineData: [10, -15, 11, 2] };
+
   componentDidMount = () => {
-    this.updateDevices();
+    // this.updateDevices();
+    this.createDataUpdateTimer();
+  };
+
+  createDataUpdateTimer = () => {
+    this.setState({
+      timer: setTimeout(() => {
+        this.updateDevices();
+      }, 2000)
+    });
+  };
+
+  componentWillUnmount = () => {
+    clearTimeout(this.state.timer);
   };
 
   // TODO: we want to do this on a timer. Check the source for react-native-timeago to see how
   updateDevices = () => {
     const { auth, fetchDevices } = this.props;
     fetchDevices(auth.userToken);
+    // this.forceUpdate(); // TODO: needed?
+    this.setState({ randomLineData: makeRandomArray() });
+    this.createDataUpdateTimer();
   };
 
   renderDevice = device => {
-    const data = device.payload
+    const datastr = device.payload
       ? JSON.stringify(device.payload)
       : "No payload available";
     return (
@@ -43,9 +72,23 @@ class DeviceList extends Component {
         </CardItem>
         <CardItem>
           <Body>
-            <Text>{data}</Text>
+            <Text>{datastr}</Text>
           </Body>
         </CardItem>
+        {/* TODO: USE REAL DATA FOR THIS */}
+        <View
+          style={{
+            margin: 10,
+            height: 100,
+            backgroundColor: "#fff"
+          }}
+        >
+          <LineChart
+            style={{ flex: 1 }}
+            config={{ yAxis: { visible: false } }}
+            data={this.state.randomLineData}
+          />
+        </View>
       </Card>
     );
   };
@@ -55,13 +98,15 @@ class DeviceList extends Component {
     console.log(devices);
     return (
       <Container>
-        <Content>
+        <View style={{ flex: 1 }}>
           <SimpleHeader title="Your Devices" />
-          <H2 style={styles.headerStyle}>Devices you own</H2>
-          {devices.ownedDevices.map(this.renderDevice)}
-          <H2 style={styles.headerStyle}>Devices you can read</H2>
-          {devices.readDevices.map(this.renderDevice)}
-        </Content>
+          <Content style={{ height: "100%", flex: 1 }}>
+            <H2 style={styles.headerStyle}>Devices you own</H2>
+            {devices.ownedDevices.map(this.renderDevice)}
+            <H2 style={styles.headerStyle}>Devices you can read</H2>
+            {devices.readDevices.map(this.renderDevice)}
+          </Content>
+        </View>
       </Container>
     );
   }
