@@ -61,8 +61,13 @@ class DeviceList extends Component {
     this.createDataUpdateTimer();
   };
 
-  renderPayloadData = (payloadProperty, propertyName) => {
+  renderPayloadData = (payloadProperty, propertyName, deviceId, deviceType) => {
+    const { devices } = this.props;
     const { value, units } = payloadProperty;
+    const graphData =
+      deviceType === "owned"
+        ? devices.ownedDevicePayloadCache
+        : devices.readDevicePayloadCache;
     return (
       <View key={propertyName}>
         <CardItem>
@@ -70,8 +75,6 @@ class DeviceList extends Component {
             <Text>{`${propertyName}: ${value} ${units}`}</Text>
           </Body>
         </CardItem>
-        {/* TODO: USE REAL DATA FOR THIS */}
-        {/* Want to access an array like devicePayloadCache[deviceId][payloadPropertyName] */}
         <View
           style={{
             margin: 10,
@@ -82,14 +85,14 @@ class DeviceList extends Component {
           <LineChart
             style={{ flex: 1 }}
             config={{ yAxis: { visible: false } }}
-            data={this.state.randomLineData}
+            data={graphData[deviceId][propertyName]}
           />
         </View>
       </View>
     );
   };
 
-  renderDevice = device => {
+  renderDevice = (device, type) => {
     const { lastPayload } = device;
     // If we don't have a payload yet, let the user know.
     if (!lastPayload || lastPayload.length <= 0) {
@@ -114,7 +117,7 @@ class DeviceList extends Component {
           <Text>{device.name}</Text>
         </CardItem>
         {Object.keys(lastPayload).map(key =>
-          this.renderPayloadData(lastPayload[key], key)
+          this.renderPayloadData(lastPayload[key], key, device._id, type)
         )}
       </Card>
     );
@@ -129,9 +132,9 @@ class DeviceList extends Component {
           <SimpleHeader title="Your Devices" />
           <Content style={{ height: "100%", flex: 1 }}>
             <H2 style={styles.headerStyle}>Devices you own</H2>
-            {devices.ownedDevices.map(this.renderDevice)}
+            {devices.ownedDevices.map(dev => this.renderDevice(dev, "owned"))}
             <H2 style={styles.headerStyle}>Devices you can read</H2>
-            {devices.readDevices.map(this.renderDevice)}
+            {devices.readDevices.map(dev => this.renderDevice(dev, "read"))}
           </Content>
         </View>
       </Container>
