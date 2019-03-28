@@ -24,6 +24,7 @@ const styles = StyleSheet.create({
   }
 });
 
+// DEBUG: makes a random array, to display as a graph.
 const makeRandomArray = () => {
   const arr = [];
   for (let i = 0; i < 10; i++) {
@@ -70,6 +71,7 @@ class DeviceList extends Component {
           </Body>
         </CardItem>
         {/* TODO: USE REAL DATA FOR THIS */}
+        {/* Want to access an array like devicePayloadCache[deviceId][payloadPropertyName] */}
         <View
           style={{
             margin: 10,
@@ -120,7 +122,7 @@ class DeviceList extends Component {
 
   render() {
     const { devices } = this.props;
-    console.log(devices);
+    // console.log(devices);
     return (
       <Container>
         <View style={{ flex: 1 }}>
