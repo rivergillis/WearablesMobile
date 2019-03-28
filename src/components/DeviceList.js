@@ -61,11 +61,12 @@ class DeviceList extends Component {
   };
 
   renderPayloadData = (payloadProperty, propertyName) => {
+    const { value, units } = payloadProperty;
     return (
       <View key={propertyName}>
         <CardItem>
           <Body>
-            <Text>{JSON.stringify(payloadProperty)}</Text>
+            <Text>{`${propertyName}: ${value} ${units}`}</Text>
           </Body>
         </CardItem>
         {/* TODO: USE REAL DATA FOR THIS */}
