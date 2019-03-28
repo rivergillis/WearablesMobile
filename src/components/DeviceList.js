@@ -52,7 +52,6 @@ class DeviceList extends Component {
     clearTimeout(this.state.timer);
   };
 
-  // TODO: we want to do this on a timer. Check the source for react-native-timeago to see how
   updateDevices = () => {
     const { auth, fetchDevices } = this.props;
     fetchDevices(auth.userToken);
@@ -61,18 +60,12 @@ class DeviceList extends Component {
     this.createDataUpdateTimer();
   };
 
-  renderDevice = device => {
-    const datastr = device.payload
-      ? JSON.stringify(device.payload)
-      : "No payload available";
+  renderPayloadData = (payloadProperty, propertyName) => {
     return (
-      <Card key={device._id}>
-        <CardItem header>
-          <Text>{device.name}</Text>
-        </CardItem>
+      <View key={propertyName}>
         <CardItem>
           <Body>
-            <Text>{datastr}</Text>
+            <Text>{JSON.stringify(payloadProperty)}</Text>
           </Body>
         </CardItem>
         {/* TODO: USE REAL DATA FOR THIS */}
@@ -89,6 +82,37 @@ class DeviceList extends Component {
             data={this.state.randomLineData}
           />
         </View>
+      </View>
+    );
+  };
+
+  renderDevice = device => {
+    const { lastPayload } = device;
+    // If we don't have a payload yet, let the user know.
+    if (!lastPayload || lastPayload.length <= 0) {
+      return (
+        <Card key={device._id}>
+          <CardItem header>
+            <Text>{device.name}</Text>
+          </CardItem>
+          <CardItem>
+            <Body>
+              <Text>Awaiting intial payload</Text>
+            </Body>
+          </CardItem>
+        </Card>
+      );
+    }
+
+    // If we have a payload, display each property and give it a graph.
+    return (
+      <Card key={device._id}>
+        <CardItem header>
+          <Text>{device.name}</Text>
+        </CardItem>
+        {Object.keys(lastPayload).map(key =>
+          this.renderPayloadData(lastPayload[key], key)
+        )}
       </Card>
     );
   };

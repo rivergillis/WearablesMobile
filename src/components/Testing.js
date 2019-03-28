@@ -1,3 +1,5 @@
+// THIS FILE IS USED TO QUICKLY PROTOTYPE IDEAS
+
 import React, { Component } from "react";
 
 import LineChart from "react-native-responsive-linechart";
