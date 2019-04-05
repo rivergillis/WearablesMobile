@@ -8,7 +8,9 @@ import {
   H2,
   Container,
   Content,
-  View
+  View,
+  Icon,
+  Right
 } from "native-base";
 import SimpleHeader from "./common/SimpleHeader";
 import { connect } from "react-redux";
@@ -17,6 +19,7 @@ import { bindActionCreators } from "redux";
 import * as DeviceActions from "../actions/devices";
 
 import LineChart from "react-native-responsive-linechart";
+import { TouchableOpacity } from "react-native-gesture-handler";
 
 const styles = StyleSheet.create({
   headerStyle: {
@@ -61,6 +64,11 @@ class DeviceList extends Component {
     this.createDataUpdateTimer();
   };
 
+  onManageDeviceTouch = device => {
+    const { navigation } = this.props;
+    navigation.navigate("ManageDevice", { deviceId: device._id });
+  };
+
   renderPayloadData = (payloadProperty, propertyName, deviceId, deviceType) => {
     const { devices } = this.props;
     const { value, units } = payloadProperty;
@@ -103,6 +111,17 @@ class DeviceList extends Component {
         <Card key={device._id}>
           <CardItem header>
             <Text>{device.name}</Text>
+            {type === "owned" && (
+              <Right style={{ marginLeft: "30%" }}>
+                <TouchableOpacity
+                  onPress={() => this.onManageDeviceTouch(device)}
+                >
+                  <View>
+                    <Icon name="md-settings" />
+                  </View>
+                </TouchableOpacity>
+              </Right>
+            )}
           </CardItem>
           <CardItem>
             <Body>
@@ -118,6 +137,17 @@ class DeviceList extends Component {
       <Card key={device._id}>
         <CardItem header>
           <Text>{device.name}</Text>
+          {type === "owned" && (
+            <Right style={{ marginLeft: "30%" }}>
+              <TouchableOpacity
+                onPress={() => this.onManageDeviceTouch(device)}
+              >
+                <View>
+                  <Icon name="md-settings" />
+                </View>
+              </TouchableOpacity>
+            </Right>
+          )}
         </CardItem>
         {Object.keys(lastPayload).map(key =>
           this.renderPayloadData(lastPayload[key], key, device._id, type)

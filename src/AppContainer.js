@@ -2,6 +2,7 @@ import { createStackNavigator, createAppContainer } from "react-navigation";
 import LoginPage from "./components/LoginPage";
 import DeviceList from "./components/DeviceList";
 import Testing from "./components/Testing";
+import ManageDevice from "./components/ManageDevice";
 
 const AppNavigator = createStackNavigator(
   {
@@ -10,6 +11,9 @@ const AppNavigator = createStackNavigator(
     },
     DeviceList: {
       screen: DeviceList
+    },
+    ManageDevice: {
+      screen: ManageDevice
     },
     Testing: {
       screen: Testing
