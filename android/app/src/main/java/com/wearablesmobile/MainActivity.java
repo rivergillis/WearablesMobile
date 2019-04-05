@@ -15,6 +15,7 @@ public class MainActivity extends ReactActivity {
     protected String getMainComponentName() {
         return "WearablesMobile";
     }
+
     @Override
     protected ReactActivityDelegate createReactActivityDelegate() {
       return new ReactActivityDelegate(this, getMainComponentName()) {

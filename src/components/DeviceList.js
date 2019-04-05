@@ -1,5 +1,5 @@
 import React, { Component } from "react";
-import { StyleSheet, ScrollView } from "react-native";
+import { StyleSheet, Platform } from "react-native";
 import {
   Card,
   CardItem,
@@ -72,22 +72,25 @@ class DeviceList extends Component {
       <View key={propertyName}>
         <CardItem>
           <Body>
-            <Text>{`${propertyName}: ${value} ${units}`}</Text>
+            <Text>{`${propertyName}: ${Math.round(value * 100) /
+              100} ${units}`}</Text>
           </Body>
         </CardItem>
-        <View
-          style={{
-            margin: 10,
-            height: 100,
-            backgroundColor: "#fff"
-          }}
-        >
-          <LineChart
-            style={{ flex: 1 }}
-            config={{ yAxis: { visible: false } }}
-            data={graphData[deviceId][propertyName]}
-          />
-        </View>
+        {Platform.OS === "ios" && (
+          <View
+            style={{
+              margin: 10,
+              height: 100,
+              backgroundColor: "#fff"
+            }}
+          >
+            <LineChart
+              style={{ flex: 1 }}
+              config={{ yAxis: { visible: false } }}
+              data={graphData[deviceId][propertyName]}
+            />
+          </View>
+        )}
       </View>
     );
   };
