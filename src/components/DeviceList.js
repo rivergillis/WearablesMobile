@@ -12,14 +12,13 @@ import {
   Icon,
   Right
 } from "native-base";
-import SimpleHeader from "./common/SimpleHeader";
 import { connect } from "react-redux";
 import { bindActionCreators } from "redux";
-
-import * as DeviceActions from "../actions/devices";
-
 import LineChart from "react-native-responsive-linechart";
 import { TouchableOpacity } from "react-native-gesture-handler";
+
+import SimpleHeader from "./common/SimpleHeader";
+import * as DeviceActions from "../actions/devices";
 
 const styles = StyleSheet.create({
   headerStyle: {
@@ -66,7 +65,7 @@ class DeviceList extends Component {
 
   onManageDeviceTouch = device => {
     const { navigation } = this.props;
-    navigation.navigate("ManageDevice", { deviceId: device._id });
+    navigation.navigate("ManageDevice", { device });
   };
 
   renderPayloadData = (payloadProperty, propertyName, deviceId, deviceType) => {
