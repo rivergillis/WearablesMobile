@@ -1,10 +1,36 @@
 import React, { Component } from "react";
-import { Container, Content, Text, Card, CardItem, Body } from "native-base";
+import {
+  Container,
+  Content,
+  Text,
+  Card,
+  CardItem,
+  Body,
+  Fab,
+  Icon,
+  Button,
+  View
+} from "native-base";
 import { connect } from "react-redux";
 
 import SimpleHeader from "./common/SimpleHeader";
 
 class RestrictReader extends Component {
+  state = {
+    startedForm: false
+  };
+
+  renderNewRestrictionForm = () => {
+    return (
+      <View>
+        <Text>Hey</Text>
+        <Button onPress={() => this.setState({ startedForm: false })}>
+          <Text>Cancel</Text>
+        </Button>
+      </View>
+    );
+  };
+
   renderRestriction = (restriction, resIdx) => {
     const key = `res${resIdx}`;
     const {
@@ -33,6 +59,8 @@ class RestrictReader extends Component {
 
   render() {
     const { navigation, devices } = this.props;
+    const { startedForm } = this.state;
+
     const deviceId = navigation.getParam("deviceId", null);
     const readerEmail = navigation.getParam("readerEmail", null);
 
@@ -51,8 +79,19 @@ class RestrictReader extends Component {
         <Container>
           <SimpleHeader title="Restrictions" isBack navigation={navigation} />
           <Content>
-            <Text>No restrictions found for reader {readerEmail}</Text>
+            {startedForm && this.renderNewRestrictionForm()}
+            {!startedForm && (
+              <Text>No restrictions found for reader {readerEmail}</Text>
+            )}
           </Content>
+          <Fab
+            position="bottomRight"
+            containerStyle={{}}
+            style={{ backgroundColor: "#e21d16" }}
+            onPress={() => this.setState({ startedForm: true })}
+          >
+            <Icon name="md-create" />
+          </Fab>
         </Container>
       );
     }
@@ -60,7 +99,18 @@ class RestrictReader extends Component {
     return (
       <Container>
         <SimpleHeader title="Restrictions" isBack navigation={navigation} />
-        <Content>{restrictions.map(this.renderRestriction)}</Content>
+        <Content>
+          {startedForm && this.renderNewRestrictionForm()}
+          {restrictions.map(this.renderRestriction)}
+        </Content>
+        <Fab
+          position="bottomRight"
+          containerStyle={{}}
+          style={{ backgroundColor: "#e21d16" }}
+          onPress={() => this.setState({ startedForm: true })}
+        >
+          <Icon name="md-create" />
+        </Fab>
       </Container>
     );
   }
