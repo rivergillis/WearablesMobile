@@ -26,17 +26,8 @@ const styles = StyleSheet.create({
   }
 });
 
-// DEBUG: makes a random array, to display as a graph.
-const makeRandomArray = () => {
-  const arr = [];
-  for (let i = 0; i < 10; i++) {
-    arr.push(Math.floor(Math.random() * Math.floor(10)));
-  }
-  return arr;
-};
-
 class DeviceList extends Component {
-  state = { timer: null, randomLineData: [10, -15, 11, 2] };
+  state = { timer: null };
 
   componentDidMount = () => {
     // this.updateDevices();
@@ -59,7 +50,6 @@ class DeviceList extends Component {
     const { auth, fetchDevices } = this.props;
     fetchDevices(auth.userToken);
     // this.forceUpdate(); // TODO: needed?
-    this.setState({ randomLineData: makeRandomArray() });
     this.createDataUpdateTimer();
   };
 

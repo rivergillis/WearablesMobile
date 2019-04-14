@@ -37,7 +37,7 @@ const createDevicePayloadCache = (currentCache, devices) => {
       }
     });
   });
-  console.log(`Rebuilt cache in ${new Date().getMilliseconds() - startTime}ms`);
+  // console.log(`Rebuilt cache in ${new Date().getMilliseconds() - startTime}ms`);
   return newCache;
 };
 
@@ -46,7 +46,7 @@ const DevicesReducer = (state = INITIAL_STATE, action) => {
     case types.BEGIN_OWNED_DEVICES_FETCH:
       return { ...state };
     case types.OWNED_DEVICES_FETCH_SUCCESS:
-      console.log("owned");
+      // console.log("owned");
       return {
         ...state,
         // This should always exist
@@ -59,7 +59,7 @@ const DevicesReducer = (state = INITIAL_STATE, action) => {
     case types.BEGIN_READ_DEVICES_FETCH:
       return { ...state };
     case types.READ_DEVICES_FETCH_SUCCESS:
-      console.log("read");
+      // console.log("read");
       return {
         ...state,
         readDevices: action.payload.devices,

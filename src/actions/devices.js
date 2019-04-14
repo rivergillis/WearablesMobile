@@ -31,7 +31,7 @@ const fetchReadDevices = async (dispatch, userToken) => {
 };
 
 export const fetchDevices = userToken => dispatch => {
-  console.log("fetching devices");
+  // console.log("fetching devices");
   fetchOwnedDevices(dispatch, userToken);
   fetchReadDevices(dispatch, userToken);
 };
