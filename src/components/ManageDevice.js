@@ -16,6 +16,7 @@ import {
 import { connect } from "react-redux";
 import Dialog from "react-native-dialog";
 import { bindActionCreators } from "redux";
+import * as DeviceActions from "../actions/devices";
 import SimpleHeader from "./common/SimpleHeader";
 
 class ManageDevice extends Component {
@@ -37,11 +38,13 @@ class ManageDevice extends Component {
     console.log(reader);
   };
 
-  onAddReader = () => {
+  onAddReader = device => {
     this.setState({ addDialogVisible: false });
     const { addReaderEmail } = this.state;
+    const { addReader, auth } = this.props;
+
     const loweredEmail = addReaderEmail.toLowerCase();
-    console.log(loweredEmail);
+    addReader(device._id, loweredEmail, auth.userToken);
   };
 
   renderReader = reader => {
@@ -68,9 +71,11 @@ class ManageDevice extends Component {
   };
 
   render() {
-    const { navigation } = this.props;
+    const { navigation, devices } = this.props;
     const { addDialogVisible, readerToDelete } = this.state;
-    const device = navigation.getParam("device", null);
+
+    let deviceId = navigation.getParam("deviceId", null);
+    const device = devices.ownedDevices.find(d => d._id === deviceId);
     if (!device) {
       return <Text>Waiting for device...</Text>;
     }
@@ -131,7 +136,7 @@ class ManageDevice extends Component {
             label="Cancel"
             onPress={() => this.setState({ addDialogVisible: false })}
           />
-          <Dialog.Button label="Add" onPress={this.onAddReader} />
+          <Dialog.Button label="Add" onPress={() => this.onAddReader(device)} />
         </Dialog.Container>
       </Container>
     );
@@ -145,11 +150,11 @@ function mapStateToProps(state) {
   };
 }
 
-// function mapDispatchToProps(dispatch) {
-//   return bindActionCreators(DeviceActions, dispatch);
-// }
+function mapDispatchToProps(dispatch) {
+  return bindActionCreators(DeviceActions, dispatch);
+}
 
 export default connect(
   mapStateToProps,
-  null
+  mapDispatchToProps
 )(ManageDevice);

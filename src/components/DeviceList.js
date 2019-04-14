@@ -55,7 +55,7 @@ class DeviceList extends Component {
 
   onManageDeviceTouch = device => {
     const { navigation } = this.props;
-    navigation.navigate("ManageDevice", { device });
+    navigation.navigate("ManageDevice", { deviceId: device._id });
   };
 
   renderPayloadData = (payloadProperty, propertyName, deviceId, deviceType) => {

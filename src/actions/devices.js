@@ -35,3 +35,20 @@ export const fetchDevices = userToken => dispatch => {
   fetchOwnedDevices(dispatch, userToken);
   fetchReadDevices(dispatch, userToken);
 };
+
+export const addReader = (deviceId, readerEmail, userToken) => dispatch => {
+  axios
+    .post(
+      `${BASE_URL}/devices/${deviceId}/readers/`,
+      { readerEmail },
+      { headers: { Authorization: `Bearer ${userToken}` } }
+    )
+    .then(res => {
+      dispatch({
+        type: types.ADD_READER_SUCCESS,
+        payload: { deviceId, readerEmail }
+      });
+      console.log(res);
+    })
+    .catch(err => console.log(err));
+};

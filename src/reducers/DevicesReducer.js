@@ -11,8 +11,6 @@ const INITIAL_STATE = {
 // TODO: check the timestamps to see if we need to update?
 // TODO: Find some way to make this faster.
 const createDevicePayloadCache = (currentCache, devices) => {
-  const startTime = new Date().getMilliseconds();
-
   const newCache = { ...currentCache };
   devices.forEach(device => {
     if (!device.lastPayload) {
@@ -37,7 +35,6 @@ const createDevicePayloadCache = (currentCache, devices) => {
       }
     });
   });
-  // console.log(`Rebuilt cache in ${new Date().getMilliseconds() - startTime}ms`);
   return newCache;
 };
 
@@ -68,6 +65,13 @@ const DevicesReducer = (state = INITIAL_STATE, action) => {
           action.payload.devices
         )
       };
+    case types.ADD_READER_SUCCESS: {
+      // const ownedDevIdx = state.ownedDevices.findIndex(dev => dev._id === action.paylaod.deviceId)
+      // const newOwnedDevices = [...ownedDevices];
+      // new
+      // return { ...state, ownedDevices: newOwnedDevices };
+      return { ...state };
+    }
     default:
       return state;
   }

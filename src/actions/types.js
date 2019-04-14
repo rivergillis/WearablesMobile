@@ -6,3 +6,5 @@ export const OWNED_DEVICES_FETCH_SUCCESS = "owned_devices_fetch_success";
 
 export const BEGIN_READ_DEVICES_FETCH = "begin_read_devices_fetch";
 export const READ_DEVICES_FETCH_SUCCESS = "read_devices_fetch_success";
+
+export const ADD_READER_SUCCESS = "add_reader_success";
