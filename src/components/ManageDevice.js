@@ -33,9 +33,9 @@ class ManageDevice extends Component {
     console.log(readerToDelete);
   };
 
-  onReaderTouch = reader => {
-    console.log("reader touch");
-    console.log(reader);
+  onReaderTouch = (reader, deviceId) => {
+    const { navigation } = this.props;
+    navigation.navigate("RestrictReader", { readerEmail: reader, deviceId });
   };
 
   onAddReader = device => {
@@ -47,12 +47,14 @@ class ManageDevice extends Component {
     addReader(device._id, loweredEmail, auth.userToken);
   };
 
-  renderReader = reader => {
+  renderReader = (reader, deviceId) => {
     return (
       <Card key={reader}>
         <CardItem>
           <Body>
-            <TouchableOpacity onPress={() => this.onReaderTouch(reader)}>
+            <TouchableOpacity
+              onPress={() => this.onReaderTouch(reader, deviceId)}
+            >
               <Text>{reader}</Text>
             </TouchableOpacity>
           </Body>
@@ -74,7 +76,7 @@ class ManageDevice extends Component {
     const { navigation, devices } = this.props;
     const { addDialogVisible, readerToDelete } = this.state;
 
-    let deviceId = navigation.getParam("deviceId", null);
+    const deviceId = navigation.getParam("deviceId", null);
     const device = devices.ownedDevices.find(d => d._id === deviceId);
     if (!device) {
       return <Text>Waiting for device...</Text>;
@@ -96,7 +98,7 @@ class ManageDevice extends Component {
           <Text style={{ paddingTop: "5%", textAlign: "center" }}>
             {readersText}
           </Text>
-          {readers.map(this.renderReader)}
+          {readers.map(r => this.renderReader(r, deviceId))}
         </Content>
         <View>
           <Fab

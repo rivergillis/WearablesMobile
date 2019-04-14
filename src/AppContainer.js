@@ -3,6 +3,7 @@ import LoginPage from "./components/LoginPage";
 import DeviceList from "./components/DeviceList";
 import Testing from "./components/Testing";
 import ManageDevice from "./components/ManageDevice";
+import RestrictReader from "./components/RestrictReader";
 
 const AppNavigator = createStackNavigator(
   {
@@ -14,6 +15,9 @@ const AppNavigator = createStackNavigator(
     },
     ManageDevice: {
       screen: ManageDevice
+    },
+    RestrictReader: {
+      screen: RestrictReader
     },
     Testing: {
       screen: Testing
