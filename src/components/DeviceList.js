@@ -5,12 +5,14 @@ import {
   CardItem,
   Body,
   Text,
-  H2,
+  H3,
   Container,
   Content,
   View,
   Icon,
-  Right
+  Right,
+  Segment,
+  Button
 } from "native-base";
 import { connect } from "react-redux";
 import { bindActionCreators } from "redux";
@@ -27,7 +29,7 @@ const styles = StyleSheet.create({
 });
 
 class DeviceList extends Component {
-  state = { timer: null };
+  state = { timer: null, isOwnedActive: true };
 
   componentDidMount = () => {
     // this.updateDevices();
@@ -49,7 +51,6 @@ class DeviceList extends Component {
   updateDevices = () => {
     const { auth, fetchDevices } = this.props;
     fetchDevices(auth.userToken);
-    // this.forceUpdate(); // TODO: needed?
     this.createDataUpdateTimer();
   };
 
@@ -83,7 +84,11 @@ class DeviceList extends Component {
           >
             <LineChart
               style={{ flex: 1 }}
-              config={{ yAxis: { visible: false } }}
+              config={{
+                yAxis: { visible: false },
+                grid: { visible: false },
+                line: { strokeColor: "#be2ddd", strokeWidth: 2 }
+              }}
               data={graphData[deviceId][propertyName]}
             />
           </View>
@@ -147,16 +152,38 @@ class DeviceList extends Component {
 
   render() {
     const { devices } = this.props;
-    // console.log(devices);
+    const { isOwnedActive } = this.state;
     return (
       <Container>
         <View style={{ flex: 1 }}>
-          <SimpleHeader title="Your Devices" />
+          <SimpleHeader title="Your Devices" hasSegment />
+          <Segment>
+            <Button
+              first
+              active={isOwnedActive}
+              onPress={() => this.setState({ isOwnedActive: true })}
+            >
+              <Text>Owned</Text>
+            </Button>
+            <Button
+              last
+              active={!isOwnedActive}
+              onPress={() => this.setState({ isOwnedActive: false })}
+            >
+              <Text>Readable</Text>
+            </Button>
+          </Segment>
           <Content style={{ height: "100%", flex: 1 }}>
-            <H2 style={styles.headerStyle}>Devices you own</H2>
-            {devices.ownedDevices.map(dev => this.renderDevice(dev, "owned"))}
-            <H2 style={styles.headerStyle}>Devices you can read</H2>
-            {devices.readDevices.map(dev => this.renderDevice(dev, "read"))}
+            {isOwnedActive &&
+              devices.ownedDevices.map(dev => this.renderDevice(dev, "owned"))}
+            {isOwnedActive && devices.ownedDevices.length <= 0 && (
+              <H3 style={styles.headerStyle}>Nothing here (yet).</H3>
+            )}
+            {!isOwnedActive &&
+              devices.readDevices.map(dev => this.renderDevice(dev, "read"))}
+            {!isOwnedActive && devices.readDevices.length <= 0 && (
+              <H3 style={styles.headerStyle}>Nothing here (yet).</H3>
+            )}
           </Content>
         </View>
       </Container>
