@@ -23,7 +23,7 @@ class RestrictReader extends Component {
   renderNewRestrictionForm = () => {
     return (
       <View>
-        <Text>Hey</Text>
+        <Text>TODO: put the new restriction form here</Text>
         <Button onPress={() => this.setState({ startedForm: false })}>
           <Text>Cancel</Text>
         </Button>
@@ -37,19 +37,38 @@ class RestrictReader extends Component {
       thresholdHigh,
       thresholdLow,
       property,
-      roundToNearest
+      roundToNearest,
+      fuzz,
+      weekDays,
+      timeBegin,
+      timeEnd
     } = restriction;
     const hasRoundToNearest = roundToNearest !== undefined;
+    const hasFuzz = fuzz !== undefined;
+    const hasTimeBegin = timeBegin !== undefined;
+    const hasTimeEnd = timeEnd !== undefined;
     return (
       <Card key={key}>
         <CardItem>
           <Body>
-            {thresholdLow && <Text>Range start: {thresholdLow}</Text>}
-            {thresholdHigh && <Text>Range end: {thresholdHigh}</Text>}
+            {thresholdLow && (
+              <Text>Affects values more than {thresholdLow}</Text>
+            )}
+            {thresholdHigh && (
+              <Text>Affects values less than {thresholdHigh}</Text>
+            )}
             {property && <Text>Affects property '{property}'</Text>}
             {!property && <Text>Affects all properties</Text>}
             {hasRoundToNearest && (
               <Text>Round value to nearest {roundToNearest}</Text>
+            )}
+            {hasFuzz && <Text>Fuzz value by {fuzz}</Text>}
+            {weekDays && weekDays.length >= 1 && (
+              <Text>Occurs on weekdays {weekDays.toString()}</Text>
+            )}
+            {hasTimeBegin && <Text>Occurs {timeBegin} ms after midnight</Text>}
+            {hasTimeEnd && (
+              <Text>Stops occuring {timeEnd} ms after midnight</Text>
             )}
           </Body>
         </CardItem>
