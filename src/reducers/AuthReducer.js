@@ -2,7 +2,7 @@ import * as types from "../actions/types";
 
 // if we have no state, use INITIAL_STATE
 const INITIAL_STATE = {
-  userToken: null,
+  userToken: null, // the auth token used in the header
   loggingIn: false,
   failedLogin: false
 };

@@ -2,14 +2,16 @@ import * as types from "../actions/types";
 
 // if we have no state, use INITIAL_STATE
 const INITIAL_STATE = {
-  ownedDevices: [],
-  readDevices: [],
+  ownedDevices: [], // list of owned devices
+  readDevices: [], // list of read devices
   ownedDevicePayloadCache: {}, // access like devicePayloadCache[deviceId][payloadPropertyName], contains 0-10 elements
   readDevicePayloadCache: {}
 };
 
 // TODO: check the timestamps to see if we need to update?
 // TODO: Find some way to make this faster.
+// Recreates the device payload cache (the last 10 entries for each payload for each device)
+// This is used for graphical display.
 const createDevicePayloadCache = (currentCache, devices) => {
   const newCache = { ...currentCache };
   devices.forEach(device => {
@@ -43,7 +45,6 @@ const DevicesReducer = (state = INITIAL_STATE, action) => {
     case types.BEGIN_OWNED_DEVICES_FETCH:
       return { ...state };
     case types.OWNED_DEVICES_FETCH_SUCCESS:
-      // console.log("owned");
       return {
         ...state,
         // This should always exist
@@ -56,7 +57,6 @@ const DevicesReducer = (state = INITIAL_STATE, action) => {
     case types.BEGIN_READ_DEVICES_FETCH:
       return { ...state };
     case types.READ_DEVICES_FETCH_SUCCESS:
-      // console.log("read");
       return {
         ...state,
         readDevices: action.payload.devices,
@@ -66,10 +66,6 @@ const DevicesReducer = (state = INITIAL_STATE, action) => {
         )
       };
     case types.ADD_READER_SUCCESS: {
-      // const ownedDevIdx = state.ownedDevices.findIndex(dev => dev._id === action.paylaod.deviceId)
-      // const newOwnedDevices = [...ownedDevices];
-      // new
-      // return { ...state, ownedDevices: newOwnedDevices };
       return { ...state };
     }
     default:

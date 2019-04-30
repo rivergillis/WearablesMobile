@@ -19,6 +19,9 @@ import { bindActionCreators } from "redux";
 import * as DeviceActions from "../actions/devices";
 import SimpleHeader from "./common/SimpleHeader";
 
+// Render the manage device component. This includes a view of the device info,
+// and a list of every reader for the device. Also includes buttons to delete readers,
+// and a prompt to add a new reader, accessed via a FAB.
 class ManageDevice extends Component {
   state = {
     addDialogVisible: false,
@@ -26,6 +29,7 @@ class ManageDevice extends Component {
     addReaderEmail: ""
   };
 
+  // Delete the reader on confirmation
   onDeleteReaderTouch = () => {
     const { readerToDelete } = this.state;
     this.setState({ readerToDelete: null });
@@ -33,11 +37,13 @@ class ManageDevice extends Component {
     console.log(readerToDelete);
   };
 
+  // Nav to the restrictions for this reader
   onReaderTouch = (reader, deviceId) => {
     const { navigation } = this.props;
     navigation.navigate("RestrictReader", { readerEmail: reader, deviceId });
   };
 
+  // Add reader on confirmation
   onAddReader = device => {
     this.setState({ addDialogVisible: false });
     const { addReaderEmail } = this.state;
@@ -111,6 +117,7 @@ class ManageDevice extends Component {
           </Fab>
         </View>
 
+        {/* These dialog containers for the prompts for adding and deleting readers, only sometimes visible */}
         <Dialog.Container visible={readerToDelete !== null}>
           <Dialog.Title>Delete reader</Dialog.Title>
           <Dialog.Description>

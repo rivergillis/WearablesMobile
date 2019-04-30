@@ -2,7 +2,7 @@ import axios from "axios";
 import * as types from "./types";
 import { BASE_URL } from "../env";
 
-// Fetches all devices that the user has read access to
+// Fetches all devices that the user owns
 const fetchOwnedDevices = async (dispatch, userToken) => {
   dispatch({ type: types.BEGIN_OWNED_DEVICES_FETCH });
   try {
@@ -16,7 +16,7 @@ const fetchOwnedDevices = async (dispatch, userToken) => {
   }
 };
 
-// Fetches all devices that the user owns
+// Fetches all devices that the user can read
 const fetchReadDevices = async (dispatch, userToken) => {
   dispatch({ type: types.BEGIN_READ_DEVICES_FETCH });
   try {
@@ -30,12 +30,14 @@ const fetchReadDevices = async (dispatch, userToken) => {
   }
 };
 
+// Fetches a list of all owned and readable devices.
 export const fetchDevices = userToken => dispatch => {
   // console.log("fetching devices");
   fetchOwnedDevices(dispatch, userToken);
   fetchReadDevices(dispatch, userToken);
 };
 
+// Adds a reader to a device
 export const addReader = (deviceId, readerEmail, userToken) => dispatch => {
   axios
     .post(

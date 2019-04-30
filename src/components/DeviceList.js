@@ -28,6 +28,9 @@ const styles = StyleSheet.create({
   }
 });
 
+// Render the device list, a scrollable card list for each device that the user owns or is able to read.
+// Each payload on the list is given a line graph (on ios only). Owned devices have a button to
+// let the user manage them. The device info is updated on a timer.
 class DeviceList extends Component {
   state = { timer: null, isOwnedActive: true };
 
@@ -36,6 +39,7 @@ class DeviceList extends Component {
     this.createDataUpdateTimer();
   };
 
+  // Create a timer to fetch devices.
   createDataUpdateTimer = () => {
     this.setState({
       timer: setTimeout(() => {
@@ -44,6 +48,7 @@ class DeviceList extends Component {
     });
   };
 
+  // Without this, there will be errors.
   componentWillUnmount = () => {
     clearTimeout(this.state.timer);
   };
@@ -59,6 +64,7 @@ class DeviceList extends Component {
     navigation.navigate("ManageDevice", { deviceId: device._id });
   };
 
+  // Render the payload info and a chart with the cached data.
   renderPayloadData = (payloadProperty, propertyName, deviceId, deviceType) => {
     const { devices } = this.props;
     const { value, units } = payloadProperty;

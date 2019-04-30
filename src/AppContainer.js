@@ -5,6 +5,7 @@ import Testing from "./components/Testing";
 import ManageDevice from "./components/ManageDevice";
 import RestrictReader from "./components/RestrictReader";
 
+// This file tells React Navigation how to render the screen stack.
 const AppNavigator = createStackNavigator(
   {
     Login: {

@@ -15,6 +15,9 @@ import { connect } from "react-redux";
 
 import SimpleHeader from "./common/SimpleHeader";
 
+// Render the reader restrictions component.
+// Includes a form for users to add new restrictions,
+// and displays a list of current restrictions.
 class RestrictReader extends Component {
   state = {
     startedForm: false
@@ -31,6 +34,7 @@ class RestrictReader extends Component {
     );
   };
 
+  // Renders a restriction card.
   renderRestriction = (restriction, resIdx) => {
     const key = `res${resIdx}`;
     const {
@@ -141,10 +145,6 @@ function mapStateToProps(state) {
     devices: state.DevicesReducer
   };
 }
-
-// function mapDispatchToProps(dispatch) {
-//   return bindActionCreators(DeviceActions, dispatch);
-// }
 
 export default connect(
   mapStateToProps,

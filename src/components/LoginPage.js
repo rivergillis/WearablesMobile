@@ -36,12 +36,14 @@ const styles = StyleSheet.create({
   }
 });
 
+// Render the login component, a simple form that lets users login and sign up
 class LoginPage extends Component {
   state = {
     email: "test@test.com",
     password: "password"
   };
 
+  // If we signed in correctly, nav to devlist, otherwise toast.
   componentDidUpdate = () => {
     const { auth, ackLoginFail } = this.props;
     if (auth.userToken) {
@@ -59,6 +61,7 @@ class LoginPage extends Component {
     loginUser(email, password);
   };
 
+  // TODO: implement signup
   onSignupPress = () => {
     const { navigation } = this.props;
     navigation.navigate("Signup");
